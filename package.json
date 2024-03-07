@@ -1,0 +1,39 @@
+{
+  "name": "pino-logfmt",
+  "version": "0.0.0",
+  "description": "Logfmt transport for pino",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botflux/pino-logfmt.git"
+  },
+  "keywords": [
+    "pino",
+    "logfmt"
+  ],
+  "author": "Victor Mendele",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/botflux/pino-logfmt/issues"
+  },
+  "homepage": "https://github.com/botflux/pino-logfmt#readme",
+  "devDependencies": {
+    "@types/chai": "^4.3.12",
+    "@types/logfmt": "^1.2.6",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.4.1",
+    "mocha": "^10.3.0",
+    "pino": "^8.19.0",
+    "ts-mocha": "^10.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "5.3"
+  },
+  "dependencies": {
+    "logfmt": "^1.4.0",
+    "pino-abstract-transport": "^1.1.0",
+    "sonic-boom": "^3.8.0"
+  }
+}
