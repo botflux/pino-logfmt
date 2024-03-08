@@ -2,7 +2,7 @@
   "name": "pino-logfmt",
   "version": "0.0.0",
   "description": "Logfmt transport for pino",
-  "main": "dist/index.js",
+  "main": "dist/transport.js",
   "scripts": {
     "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\"",
     "build": "tsc"
