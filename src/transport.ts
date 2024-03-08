@@ -2,6 +2,7 @@ import SonicBoom from "sonic-boom";
 import { once } from "node:events"
 import build from "pino-abstract-transport";
 import { stringify } from "logfmt"
+import { snakeCase } from "case-anything"
 
 export type LogFmtTransportOptions = {
   /**
@@ -61,6 +62,14 @@ export type LogFmtTransportOptions = {
    * @default {"time"}
    */
   timeKey?: string
+
+  /**
+   * Enable the metadata names conversions from camel case
+   * to snake case.
+   *
+   * @default {false}
+   */
+  convertToSnakeCase?: boolean
 }
 
 const levelToLabel: Record<number, string> = {
@@ -77,7 +86,8 @@ export default async function (opts: LogFmtTransportOptions = {}) {
     includeLevelLabel,
     levelLabelKey = "level_label",
     formatTime,
-    timeKey = "time"
+    timeKey = "time",
+    convertToSnakeCase
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
@@ -96,6 +106,17 @@ export default async function (opts: LogFmtTransportOptions = {}) {
 
       if (formatTime === true) {
         obj[timeKey] = new Date(obj[timeKey]).toISOString()
+      }
+
+      if (convertToSnakeCase === true) {
+        for (const field in obj) {
+          const snakeCaseName = snakeCase(field)
+
+          if (snakeCaseName !== field) {
+            obj[snakeCase(field)] = obj[field]
+            delete obj[field]
+          }
+        }
       }
 
       const toDrain = !destination.write(stringify(obj) + '\n')

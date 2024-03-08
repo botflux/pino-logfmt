@@ -4,7 +4,8 @@
   "description": "Logfmt transport for pino",
   "main": "dist/index.js",
   "scripts": {
-    "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\""
+    "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\"",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "typescript": "5.3"
   },
   "dependencies": {
+    "case-anything": "^2.1.13",
     "logfmt": "^1.4.0",
     "pino-abstract-transport": "^1.1.0",
     "sonic-boom": "^3.8.0"

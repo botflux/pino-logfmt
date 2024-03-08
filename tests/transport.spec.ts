@@ -155,6 +155,51 @@ it('should be able to use a custom key when formatting the timestamp', async fun
   ])
 })
 
+it('should be able to include metadata in the log line', async function () {
+  // Given
+  const transport = await logfmtTransport({
+    sync: true,
+    destination: logFile,
+  })
+
+  const logger = pino({
+    timestamp: false,
+    base: {},
+  }, transport)
+
+  // When
+  logger.info({ metadata: "bar" }, "foo")
+
+  // Then
+  expect(await loadLog(logFile)).to.deep.equal([
+    "level=30 metadata=bar msg=foo",
+    ""
+  ])
+})
+
+it('should be able to convert names from camel case to snake case', async function () {
+  // Given
+  const transport = await logfmtTransport({
+    sync: true,
+    destination: logFile,
+    convertToSnakeCase: true
+  })
+
+  const logger = pino({
+    timestamp: false,
+    base: {},
+  }, transport)
+
+  // When
+  logger.info({ myMetadata: "bar" }, "foo")
+
+  // Then
+  expect(await loadLog(logFile)).to.deep.equal([
+    "level=30 msg=foo my_metadata=bar",
+    ""
+  ])
+})
+
 async function loadLog (file: string): Promise<string[]> {
   const content = await readFile(file, "utf-8")
   return content.split("\n")
