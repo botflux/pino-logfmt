@@ -5,6 +5,7 @@
   "main": "dist/transport.js",
   "scripts": {
     "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\"",
+    "prepare": "husky",
     "build": "tsc"
   },
   "repository": {
