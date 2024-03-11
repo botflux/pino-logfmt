@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Logfmt transport for pino",
   "main": "dist/transport.js",
+  "bin": "./dist/bin.js",
   "scripts": {
     "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\"",
     "build": "tsc"
