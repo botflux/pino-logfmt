@@ -27,6 +27,7 @@
     "@types/chai": "^4.3.12",
     "@types/logfmt": "^1.2.6",
     "@types/mocha": "^10.0.6",
+    "@types/pump": "^1.1.3",
     "chai": "^4.4.1",
     "husky": "^8.0.3",
     "mocha": "^10.3.0",
@@ -37,8 +38,10 @@
   },
   "dependencies": {
     "case-anything": "^2.1.13",
+    "commander": "^12.0.0",
     "logfmt": "^1.4.0",
     "pino-abstract-transport": "^1.1.0",
+    "pump": "^3.0.0",
     "sonic-boom": "^3.8.0"
   },
   "commitlint": {
