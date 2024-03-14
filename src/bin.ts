@@ -35,7 +35,7 @@ function cli () {
         formatTime,
         snakeCase: convertToSnakeCase,
         flattenNested: flattenNestedObjects
-      } = program.opts<ProgramOptions>()
+      } = opts
 
       const transport = await createTransport({
         includeLevelLabel,
