@@ -1,4 +1,4 @@
-import logfmtTransport from "../src/transport"
+import logfmtTransport, {baseLevelToLabel} from "../src/transport"
 import {mkdir, readFile} from "node:fs/promises"
 import {randomUUID} from "node:crypto"
 import pino from "pino";
@@ -58,30 +58,6 @@ it('should be able to include the level label', async function () {
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
     "level=30 msg=foo level_label=info",
-    ""
-  ])
-})
-
-it('should be able to include the level label under a custom key', async function () {
-  // Given
-  const transport = await logfmtTransport({
-    sync: true,
-    destination: logFile,
-    includeLevelLabel: true,
-    levelLabelKey: "my_level_label"
-  })
-
-  const logger = pino({
-    timestamp: false,
-    base: {},
-  }, transport)
-
-  // When
-  logger.info("foo")
-
-  // Then
-  expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 msg=foo my_level_label=info",
     ""
   ])
 })
@@ -199,6 +175,88 @@ it('should be able to convert names from camel case to snake case', async functi
     ""
   ])
 })
+
+describe('level labels', function () {
+  it('should be able to include the level label under a custom key', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      includeLevelLabel: true,
+      levelLabelKey: "my_level_label"
+    })
+
+    const logger = pino({
+      timestamp: false,
+      base: {},
+    }, transport)
+
+    // When
+    logger.info("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=30 msg=foo my_level_label=info",
+      ""
+    ])
+  })
+
+  it('should be able to use custom level labels', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      includeLevelLabel: true,
+      customLevels: {
+        55: "critic"
+      }
+    })
+
+    const logger = pino({
+      timestamp: false,
+      base: {},
+      customLevels: {
+        critic: 55
+      }
+    }, transport)
+
+    // When
+    logger.critic("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=55 msg=foo level_label=critic",
+      ""
+    ])
+  })
+
+  it('should be able to display a default label given the level is not configured', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      includeLevelLabel: true,
+    })
+
+    const logger = pino({
+      timestamp: false,
+      base: {},
+      customLevels: {
+        critic: 55
+      }
+    }, transport)
+
+    // When
+    logger.critic("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=55 msg=foo level_label=unknown",
+      ""
+    ])
+  })
+})
+
 
 async function loadLog (file: string): Promise<string[]> {
   const content = await readFile(file, "utf-8")

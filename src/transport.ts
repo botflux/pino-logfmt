@@ -83,9 +83,37 @@ export type LogFmtTransportOptions = {
    * The separator character used for flattening the nested metadata.
    */
   flattenNestedSeparator?: string
+
+  /**
+   * Override the default level mapping.
+   * Here is the default mapping:
+   * ```
+   * {
+   *   10: "trace",
+   *   20: "debug",
+   *   30: "info",
+   *   40: "warn",
+   *   50: "error",
+   *   60: "fatal",
+   * }
+   * ```
+   *
+   * Below, an example showing how to derive the default mapping to add
+   * a custom "critic" level.
+   *
+   * ```
+   * import { baseLevelToLabel } from "pino-logfmt"
+   *
+   * const newLevels: Record<number, string> = {
+   *    ...baseLevelToLabel,
+   *    55: "critical"
+   * }
+   * ```
+   */
+  customLevels?: Record<number, string>
 }
 
-const levelToLabel: Record<number, string> = {
+export const baseLevelToLabel: Record<number, string> = {
   10: "trace",
   20: "debug",
   30: "info",
@@ -102,7 +130,8 @@ export default async function (opts: LogFmtTransportOptions = {}) {
     timeKey = "time",
     convertToSnakeCase,
     flattenNestedObjects,
-    flattenNestedSeparator
+    flattenNestedSeparator,
+    customLevels =  baseLevelToLabel
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
@@ -116,7 +145,7 @@ export default async function (opts: LogFmtTransportOptions = {}) {
   return build(async function (source) {
     for await (let obj of source) {
       if (includeLevelLabel === true) {
-        obj[levelLabelKey] = levelToLabel[obj.level] ?? "unknown"
+        obj[levelLabelKey] = customLevels[obj.level] ?? "unknown"
       }
 
       if (formatTime === true) {
