@@ -10,6 +10,8 @@ type ProgramOptions = {
   formatTime?: boolean
   timeKey?: string
   snakeCase?: boolean
+  flattenNested?: boolean
+  flattenSeparator?: string
 }
 
 cli()
@@ -19,10 +21,12 @@ function cli () {
     .version(version)
     .description(description)
     .option("--include-level-label", 'add the level as a label', false)
-    .option("--level-label-key", 'the key of the level label')
+    .option("--level-label-key", 'the key of the level label', "level_label")
     .option("--format-time", "format the timestamp into an ISO date", false)
-    .option("--time-key", "the key that holds the timestamp")
-    .option("--snake-case", 'convert the keys to snake case')
+    .option("--time-key", "the key that holds the timestamp", "time")
+    .option("--snake-case", 'convert the keys to snake case', false)
+    .option("--flatten-nested", 'flatten nested metadata', false)
+    .option("--flatten-separator", "the separator used when flattening nested metadata", ".")
     .action(async (opts: ProgramOptions) => {
       const {
         includeLevelLabel,
@@ -30,6 +34,7 @@ function cli () {
         timeKey,
         formatTime,
         snakeCase: convertToSnakeCase,
+        flattenNested: flattenNestedObjects
       } = program.opts<ProgramOptions>()
 
       const transport = await createTransport({
@@ -38,6 +43,7 @@ function cli () {
         timeKey,
         formatTime,
         convertToSnakeCase,
+        flattenNestedObjects
       })
 
       pump(process.stdin, transport)

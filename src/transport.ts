@@ -3,6 +3,7 @@ import { once } from "node:events"
 import build from "pino-abstract-transport";
 import { stringify } from "logfmt"
 import { snakeCase } from "case-anything"
+import {treeToKeyValue} from "./tree-to-key-value";
 
 export type LogFmtTransportOptions = {
   /**
@@ -70,6 +71,18 @@ export type LogFmtTransportOptions = {
    * @default {false}
    */
   convertToSnakeCase?: boolean
+
+  /**
+   * Flatten metadata into a simple key value dictionary.
+   *
+   * @default {false}
+   */
+  flattenNestedObjects?: boolean
+
+  /**
+   * The separator character used for flattening the nested metadata.
+   */
+  flattenNestedSeparator?: string
 }
 
 const levelToLabel: Record<number, string> = {
@@ -87,7 +100,9 @@ export default async function (opts: LogFmtTransportOptions = {}) {
     levelLabelKey = "level_label",
     formatTime,
     timeKey = "time",
-    convertToSnakeCase
+    convertToSnakeCase,
+    flattenNestedObjects,
+    flattenNestedSeparator
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
@@ -108,7 +123,9 @@ export default async function (opts: LogFmtTransportOptions = {}) {
         obj[timeKey] = new Date(obj[timeKey]).toISOString()
       }
 
-      if (convertToSnakeCase === true) {
+      // treeToKeyValue transforms the field name to snake case
+      // if flattenNestedObjects is enabled.
+      if (convertToSnakeCase === true && flattenNestedObjects !== true) {
         for (const field in obj) {
           const snakeCaseName = snakeCase(field)
 
@@ -117,6 +134,10 @@ export default async function (opts: LogFmtTransportOptions = {}) {
             delete obj[field]
           }
         }
+      }
+
+      if (flattenNestedObjects === true) {
+        obj = treeToKeyValue(obj, flattenNestedSeparator, convertToSnakeCase)
       }
 
       const toDrain = !destination.write(stringify(obj) + '\n')
