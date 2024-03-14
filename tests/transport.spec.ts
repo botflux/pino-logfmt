@@ -1,4 +1,4 @@
-import logfmtTransport, {baseLevelToLabel} from "../src/transport"
+import logfmtTransport from "../src/transport"
 import {mkdir, readFile} from "node:fs/promises"
 import {randomUUID} from "node:crypto"
 import pino from "pino";
