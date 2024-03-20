@@ -6,7 +6,7 @@
   "bin": "./src/bin.js",
   "typings": "./typings/types.d.ts",
   "scripts": {
-    "test": "mocha \"tests/**/*.spec.js\""
+    "test": "TZ=Europe/Paris mocha \"tests/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
   "dependencies": {
     "case-anything": "^2.1.13",
     "commander": "^12.0.0",
+    "dateformat": "^5.0.3",
     "logfmt": "^1.4.0",
     "pino-abstract-transport": "^1.1.0",
     "pump": "^3.0.0",

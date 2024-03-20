@@ -4,6 +4,8 @@ import build from "pino-abstract-transport";
 import logfmt from "logfmt"
 import { snakeCase } from "case-anything"
 import {treeToKeyValue} from "./tree-to-key-value.js";
+import format from "dateformat"
+import dateFormat from "dateformat";
 
 /**
  *
@@ -32,7 +34,8 @@ export default async function (opts  = {}) {
     convertToSnakeCase,
     flattenNestedObjects,
     flattenNestedSeparator,
-    customLevels =  baseLevelToLabel
+    customLevels =  baseLevelToLabel,
+    timeFormat = "isoDateTime"
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
@@ -50,7 +53,7 @@ export default async function (opts  = {}) {
       }
 
       if (formatTime === true) {
-        obj[timeKey] = new Date(obj[timeKey]).toISOString()
+        obj[timeKey] = dateFormat(obj[timeKey], timeFormat)
       }
 
       // treeToKeyValue transforms the field name to snake case

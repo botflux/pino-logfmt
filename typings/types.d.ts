@@ -51,6 +51,14 @@ export type LogFmtTransportOptions = {
   formatTime?: boolean
 
   /**
+   * The time format used to format time.
+   * You can pass any format accepted by the node module `dateformat`.
+   *
+   * @default {"isoDateTime"}
+   */
+  timeFormat?: string
+
+  /**
    * The key that holds the timestamp of the log.
    *
    * @default {"time"}

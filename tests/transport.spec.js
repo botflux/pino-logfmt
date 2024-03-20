@@ -90,53 +90,6 @@ it('should be able to include the timestamp', async function () {
   ])
 })
 
-it('should be able to format the timestamp using .toISOString()', async function () {
-  // Given
-  const transport = await logfmtTransport({
-    sync: true,
-    destination: logFile,
-    formatTime: true
-  })
-
-  const logger = pino({
-    timestamp: () => ',"time": 1709818522782',
-    base: {},
-  }, transport)
-
-  // When
-  logger.info("foo")
-
-  // Then
-  expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 time=2024-03-07T13:35:22.782Z msg=foo",
-    ""
-  ])
-})
-
-it('should be able to use a custom key when formatting the timestamp', async function () {
-  // Given
-  const transport = await logfmtTransport({
-    sync: true,
-    destination: logFile,
-    formatTime: true,
-    timeKey: "timestamp"
-  })
-
-  const logger = pino({
-    timestamp: () => ',"timestamp": 1709818522782',
-    base: {},
-  }, transport)
-
-  // When
-  logger.info("foo")
-
-  // Then
-  expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 timestamp=2024-03-07T13:35:22.782Z msg=foo",
-    ""
-  ])
-})
-
 it('should be able to include metadata in the log line', async function () {
   // Given
   const transport = await logfmtTransport({
@@ -180,6 +133,80 @@ it('should be able to convert names from camel case to snake case', async functi
     "level=30 msg=foo my_metadata=bar",
     ""
   ])
+})
+
+describe('time format', function () {
+  it('should be able to format the timestamp to a ISO string', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      formatTime: true
+    })
+
+    const logger = pino({
+      timestamp: () => ',"time": 1709818522782',
+      base: {},
+    }, transport)
+
+    // When
+    logger.info("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=30 time=2024-03-07T14:35:22+0100 msg=foo",
+      ""
+    ])
+  })
+
+  it('should be able to use a custom key when formatting the timestamp', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      formatTime: true,
+      timeKey: "timestamp"
+    })
+
+    const logger = pino({
+      timestamp: () => ',"timestamp": 1709818522782',
+      base: {},
+    }, transport)
+
+    // When
+    logger.info("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=30 timestamp=2024-03-07T14:35:22+0100 msg=foo",
+      ""
+    ])
+  })
+
+  it('should be able to format time using a custom format', async function () {
+    // Given
+    const transport = await logfmtTransport({
+      sync: true,
+      destination: logFile,
+      formatTime: true,
+      timeKey: "timestamp",
+      timeFormat: "dddd, mmmm dS, yyyy, h:MM:ss TT"
+    })
+
+    const logger = pino({
+      timestamp: () => ',"timestamp": 1709818522782',
+      base: {},
+    }, transport)
+
+    // When
+    logger.info("foo")
+
+    // Then
+    expect(await loadLog(logFile)).to.deep.equal([
+      "level=30 timestamp=\"Thursday, March 7th, 2024, 2:35:22 PM\" msg=foo",
+      ""
+    ])
+  })
 })
 
 describe('level labels', function () {
