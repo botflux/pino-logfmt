@@ -89,14 +89,15 @@ logger.info("Hello world")
 
 ### Options
 
-| Name                     | Type               | Default       | Description                                                                                                                                                   |
-|--------------------------|--------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `includeLevelLabel`      | `boolean`          | `false`       | Add the level as a label in each log entries                                                                                                                  |
+| Name                     | Type               | Default         | Description                                                                                                                                                   |
+|--------------------------|--------------------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `includeLevelLabel`      | `boolean`          | `false`         | Add the level as a label in each log entries                                                                                                                  |
 | `levelLabelKey`          | `string`           | `"level_label"` | The name of the level label metadata. Only used if `includeLevelLabel` is enabled.                                                                            |
-| `formatTime`             | `boolean`          | `false`       | Format pino's `time` field using Date.toISOString(). The `time` field will be overriden with the formatted date.                                              |
+| `formatTime`             | `boolean`          | `false`         | Format pino's `time` field using Date.toISOString(). The `time` field will be overriden with the formatted date.                                              |
+| `timeFormat`             | `string`           | `"isoDateTime"` | A time format compatible with `dateformat`' formats.                                                                                                          |
 | `timeKey`                | `string`           | `"time"`        | The name of the key that holds the log timestamp.                                                                                                             |
-| `convertToSnakeCase`     | `boolean`          | `false`       | Convert log field names to snake case.                                                                                                                        |
-| `flattenNestedObjects`   | `boolean`          | `false`       | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
+| `convertToSnakeCase`     | `boolean`          | `false`         | Convert log field names to snake case.                                                                                                                        |
+| `flattenNestedObjects`   | `boolean`          | `false`         | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
 | `flattenNestedSeparator` | `string`           | `"_"`           | The character that is used to merge keys when `flattenNestedObjects` is enabled.                                                                              |
 | `destination`            | `string \| number` | `1`             | The destination where the transport will write to. By default, it logs to stdout but you can also provide a file name.                                        |
 
@@ -114,15 +115,17 @@ Usage: pino-logfmt [options]
 Logfmt transport for pino
 
 Options:
-  -V, --version          output the version number
-  --include-level-label  add the level as a label (default: false)
-  --level-label-key      the key of the level label
-  --format-time          format the timestamp into an ISO date (default: false)
-  --time-key             the key that holds the timestamp
-  --snake-case           convert the keys to snake case (default: false)
-  --flatten-nested       flatten nested metadata (default: false)
-  --flatten-separator    the separator used when flattening nested metadata
-  -h, --help             display help for command
+  -V, --version                 output the version number
+  --include-level-label         add the level as a label (default: false)
+  --level-label-key <string>    the key of the level label (default: "level_label")
+  --format-time                 format the timestamp into an ISO date (default: false)
+  --time-key <string>           the key that holds the timestamp (default: "time")
+  --snake-case                  convert the keys to snake case (default: false)
+  --flatten-nested              flatten nested metadata (default: false)
+  --flatten-separator <string>  the separator used when flattening nested metadata (default: ".")
+  --custom-levels, -x <string>  the levels associated to their labels in the format "10:trace,20:debug" (default: "10:trace,20:debug,30:info,40:warn,50:error,60:fatal")
+  --time-format <string>        the time format to use if time formatting is enabled (default: "isoDateTime")
+  -h, --help                    display help for command
 ```
 
 ```shell
@@ -131,19 +134,17 @@ node process-that-emits-logs.js | pino-logfmt
 
 ### Flags
 
-| Name                    | Type               | Default       | Description                                                                                                                                                   |
-|-------------------------|--------------------|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--include-level-label` | `boolean`          | `false`       | Add the level as a label in each log entries                                                                                                                  |
-| `--level-label-key`     | `string`           | `"level_label"` | The name of the level label metadata. Only used if `includeLevelLabel` is enabled.                                                                            |
-| `--format-time`         | `boolean`          | `false`       | Format pino's `time` field using Date.toISOString(). The `time` field will be overriden with the formatted date.                                              |
-| `--time-key`            | `string`           | `"time"`        | The name of the key that holds the log timestamp.                                                                                                             |
-| `--snake-case`          | `boolean`          | `false`       | Convert log field names to snake case.                                                                                                                        |
-| `--flatten-nested`      | `boolean`          | `false`       | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
-| `--flatten-separator`   | `string`           | `"_"`           | The character that is used to merge keys when `flattenNestedObjects` is enabled.                                                                              |
+| Name                    | Type      | Default         | Description                                                                                                                                                   |
+|-------------------------|-----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `--include-level-label` | `boolean` | `false`         | Add the level as a label in each log entries                                                                                                                  |
+| `--level-label-key`     | `string`  | `"level_label"` | The name of the level label metadata. Only used if `includeLevelLabel` is enabled.                                                                            |
+| `--format-time`         | `boolean` | `false`         | Format pino's `time` field using Date.toISOString(). The `time` field will be overriden with the formatted date.                                              |
+| `--time-format`         | `string`  | `"isoDateTime"` | A time format compatible with `dateformat`' formats.                                                                                                          |
+| `--time-key`            | `string`  | `"time"`        | The name of the key that holds the log timestamp.                                                                                                             |
+| `--snake-case`          | `boolean` | `false`         | Convert log field names to snake case.                                                                                                                        |
+| `--flatten-nested`      | `boolean` | `false`         | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
+| `--flatten-separator`   | `string`  | `"_"`           | The character that is used to merge keys when `flattenNestedObjects` is enabled.                                                                              |
 
 ## Known issues
 
 - Stack traces (and others multi-line strings) are not escaped
-- Time formatting can be faster
-- Custom levels are not supported yet
-- Case formatting can be faster (I don't know I need to test through in a benchmark)
