@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.1](https://github.com/botflux/pino-logfmt/compare/v0.0.0...v0.0.1) (2024-03-20)
+
+
+### Bug Fixes
+
+* remove test logs from tarball ([ca53951](https://github.com/botflux/pino-logfmt/commit/ca5395119b70836d004b6a92ba6836e806d18154))
+
 ## 0.0.0 (2024-03-20)
 
 
