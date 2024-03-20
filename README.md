@@ -1,8 +1,6 @@
 # pino-logfmt
 ![build and test](https://github.com/botflux/pino-logfmt/actions/workflows/node.js.yml/badge.svg)
 
-> **The package is not published yet**
-
 This package provides a transport that transforms standard pino logs to logfmt.
 
 A standard Pino log line like: 
