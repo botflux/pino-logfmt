@@ -2,3 +2,4 @@ node_modules
 .husky
 .github
 var
+.idea
