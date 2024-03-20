@@ -6,7 +6,8 @@
   "bin": "./src/bin.js",
   "typings": "./typings/types.d.ts",
   "scripts": {
-    "test": "TZ=Europe/Paris mocha \"tests/**/*.spec.js\""
+    "test": "TZ=Europe/Paris mocha \"tests/**/*.spec.js\"",
+    "version": "commit-and-tag-version"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,7 @@
     "@types/mocha": "^10.0.6",
     "@types/pump": "^1.1.3",
     "chai": "^4.4.1",
+    "commit-and-tag-version": "^12.2.0",
     "husky": "^8.0.3",
     "mocha": "^10.3.0",
     "pino": "^8.19.0",
