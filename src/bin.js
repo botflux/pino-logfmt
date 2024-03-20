@@ -1,13 +1,17 @@
 #!/usr/bin/env node
-import { version, description } from "../package.json"
 import {program} from "commander";
 import createTransport, {baseLevelToLabel} from "./transport.js";
 import pump from "pump";
 import {serialize, parse} from "./levels.js";
+import {readFileSync} from "fs"
+import {join} from "path"
+import * as url from 'url';
 
 cli()
 
 function cli () {
+  const { version, description } = JSON.parse(readFileSync(join(url.fileURLToPath(new URL('.', import.meta.url)), "..", "package.json"), "utf8"))
+
   program
     .version(version)
     .description(description)
@@ -19,6 +23,7 @@ function cli () {
     .option("--flatten-nested", 'flatten nested metadata', false)
     .option("--flatten-separator <string>", "the separator used when flattening nested metadata", ".")
     .option("--custom-levels, -x <string>", "the levels associated to their labels in the format \"10:trace,20:debug\"", serialize(baseLevelToLabel))
+    .option("--time-format <string>", "the time format to use if time formatting is enabled", "isoDateTime")
     .action(action)
     .parseAsync(process.argv)
     .catch(console.error)
@@ -36,7 +41,8 @@ async function action(opts) {
         formatTime,
         snakeCase: convertToSnakeCase,
         flattenNested: flattenNestedObjects,
-        customLevels: serializedCustomLevels
+        customLevels: serializedCustomLevels,
+        timeFormat
     } = opts
 
     const customLevels = serializedCustomLevels !== undefined
@@ -50,7 +56,8 @@ async function action(opts) {
         formatTime,
         convertToSnakeCase,
         flattenNestedObjects,
-        customLevels
+        customLevels,
+        timeFormat
     })
 
     pump(process.stdin, transport)

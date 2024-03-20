@@ -7,4 +7,5 @@ export type ProgramOptions = {
   flattenNested?: boolean
   flattenSeparator?: string
   customLevels?: string
+  timeFormat?: string
 }
