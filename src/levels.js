@@ -1,9 +1,10 @@
 /**
  * Serialize levels to labels mapping.
  *
- * @param levelsToLabels
+ * @param {Record<number, string>} levelsToLabels
+ * @returns {string}
  */
-export function serialize (levelsToLabels: Record<number, string>): string {
+export function serialize (levelsToLabels) {
   return Object.entries(levelsToLabels)
     .map (([key, value]) => `${key}:${value}`)
     .join(",")
@@ -20,9 +21,10 @@ export class InvalidLevelLabelFormatError extends Error {
 /**
  * Parse serialized level to label.
  *
- * @param serialized
+ * @param {string }serialized
+ * @returns {Record<number, string>}
  */
-export function parse(serialized: string): Record<number, string> {
+export function parse(serialized) {
   if (!isFormatValid(serialized))
     throw new InvalidLevelLabelFormatError()
 
@@ -34,9 +36,10 @@ export function parse(serialized: string): Record<number, string> {
 /**
  * Verify that the format is correct.
  *
- * @param serialized
+ * @param {string} serialized
+ * @returns {boolean}
  */
-function isFormatValid (serialized: string) {
+function isFormatValid (serialized) {
   const regex = /^((\d+):(\w+),?)+$/i
   return regex.test(serialized)
 }

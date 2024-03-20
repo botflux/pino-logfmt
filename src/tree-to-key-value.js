@@ -3,13 +3,17 @@ import {snakeCase} from "case-anything";
 /**
  * Flatten a tree into a key value dictionary.
  *
- * @param source
- * @param separator
- * @param convertNamesToSnakeCase
- * @param prefixes
+ * @param {Record<string, unknown>} source
+ * @param {string} separator
+ * @param {boolean} convertNamesToSnakeCase
+ * @param {string[]} prefixes
+ * @returns {Record<string, unknown>}
  */
-export function treeToKeyValue(source: Record<string, unknown>, separator: string = "_", convertNamesToSnakeCase: boolean = true, prefixes: string[] = []): Record<string, unknown> {
-  const output: Record<string, unknown> = {}
+export function treeToKeyValue(source, separator = "_", convertNamesToSnakeCase = true, prefixes = []){
+  /**
+   * @type {Record<string, unknown>}
+   */
+  const output = {}
 
   for (const key in source) {
     const formattedKey = convertNamesToSnakeCase
@@ -20,7 +24,7 @@ export function treeToKeyValue(source: Record<string, unknown>, separator: strin
       Object.assign(
         output,
         treeToKeyValue(
-          source[key] as Record<string, unknown>,
+          source[key],
           separator,
           convertNamesToSnakeCase,
           [...prefixes, formattedKey]

@@ -1,6 +1,5 @@
 import {expect} from "chai";
-import {InvalidLevelLabelFormatError, parse} from "../src/levels";
-
+import {InvalidLevelLabelFormatError, parse} from "../src/levels.js";
 
 describe('levels parsing', function () {
   it('should be able to parse a custom level', function () {

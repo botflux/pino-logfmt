@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {treeToKeyValue} from "../src/tree-to-key-value";
+import {treeToKeyValue} from "../src/tree-to-key-value.js";
 
 describe('treeToKeyValue', function () {
   it('should be able to not touch top level fields', function () {

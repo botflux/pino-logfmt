@@ -2,11 +2,11 @@
   "name": "pino-logfmt",
   "version": "0.0.0",
   "description": "Logfmt transport for pino",
-  "main": "dist/transport.js",
-  "bin": "./dist/bin.js",
+  "main": "./src/transport.js",
+  "bin": "./src/bin.js",
+  "typings": "./typings/types.d.ts",
   "scripts": {
-    "test": "ts-mocha --project tsconfig.test.json \"tests/**/*.spec.ts\"",
-    "build": "tsc"
+    "test": "mocha \"tests/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "bugs": {
     "url": "https://github.com/botflux/pino-logfmt/issues"
   },
+  "type": "module",
   "homepage": "https://github.com/botflux/pino-logfmt#readme",
   "devDependencies": {
     "@commitlint/cli": "^19.0.3",
@@ -33,7 +34,6 @@
     "husky": "^8.0.3",
     "mocha": "^10.3.0",
     "pino": "^8.19.0",
-    "ts-mocha": "^10.0.0",
     "ts-node": "^10.9.2",
     "typescript": "5.3"
   },

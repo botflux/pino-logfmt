@@ -1,11 +1,17 @@
-import logfmtTransport from "../src/transport"
+import logfmtTransport from "../src/transport.js"
 import {mkdir, readFile} from "node:fs/promises"
 import {randomUUID} from "node:crypto"
 import pino from "pino";
 import {expect} from "chai";
 
-let testLogDirectory!: string
-let logFile!: string
+/**
+ * @type {string}
+ */
+let testLogDirectory
+/**
+ * @type {string}
+ */
+let logFile
 
 beforeEach(async () => {
   testLogDirectory = `var/${randomUUID()}`
@@ -258,7 +264,13 @@ describe('level labels', function () {
 })
 
 
-async function loadLog (file: string): Promise<string[]> {
+/**
+ * Read and parse the given log file.
+ *
+ * @param {string} file
+ * @returns {Promise<string[]>}
+ */
+async function loadLog (file) {
   const content = await readFile(file, "utf-8")
   return content.split("\n")
 }

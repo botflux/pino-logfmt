@@ -1,20 +1,9 @@
 #!/usr/bin/env node
 import { version, description } from "../package.json"
 import {program} from "commander";
-import createTransport, {baseLevelToLabel} from "./transport";
+import createTransport, {baseLevelToLabel} from "./transport.js";
 import pump from "pump";
-import {serialize, parse} from "./levels";
-
-type ProgramOptions = {
-  includeLevelLabel?: boolean
-  levelLabelKey?: string
-  formatTime?: boolean
-  timeKey?: string
-  snakeCase?: boolean
-  flattenNested?: boolean
-  flattenSeparator?: string
-  customLevels?: string
-}
+import {serialize, parse} from "./levels.js";
 
 cli()
 
@@ -30,8 +19,17 @@ function cli () {
     .option("--flatten-nested", 'flatten nested metadata', false)
     .option("--flatten-separator <string>", "the separator used when flattening nested metadata", ".")
     .option("--custom-levels, -x <string>", "the levels associated to their labels in the format \"10:trace,20:debug\"", serialize(baseLevelToLabel))
-    .action(async (opts: ProgramOptions) => {
-      const {
+    .action(action)
+    .parseAsync(process.argv)
+    .catch(console.error)
+}
+
+/**
+ * @param {ProgramOptions} opts
+ * @returns {Promise<void>}
+ */
+async function action(opts) {
+    const {
         includeLevelLabel,
         levelLabelKey,
         timeKey,
@@ -39,13 +37,13 @@ function cli () {
         snakeCase: convertToSnakeCase,
         flattenNested: flattenNestedObjects,
         customLevels: serializedCustomLevels
-      } = opts
+    } = opts
 
-      const customLevels = serializedCustomLevels !== undefined
+    const customLevels = serializedCustomLevels !== undefined
         ? parse(serializedCustomLevels)
         : undefined
 
-      const transport = await createTransport({
+    const transport = await createTransport({
         includeLevelLabel,
         levelLabelKey,
         timeKey,
@@ -53,10 +51,7 @@ function cli () {
         convertToSnakeCase,
         flattenNestedObjects,
         customLevels
-      })
-
-      pump(process.stdin, transport)
     })
-    .parseAsync(process.argv)
-    .catch(console.error)
+
+    pump(process.stdin, transport)
 }
