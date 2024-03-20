@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.2](https://github.com/botflux/pino-logfmt/compare/v0.0.1...v0.0.2) (2024-03-20)
+
+
+### Bug Fixes
+
+* remove idea files ([994f8d1](https://github.com/botflux/pino-logfmt/commit/994f8d13f0fb3eee0b802724937a6fa7f3e00acf))
+
 ## [0.0.1](https://github.com/botflux/pino-logfmt/compare/v0.0.0...v0.0.1) (2024-03-20)
 
 

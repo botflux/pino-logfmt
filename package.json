@@ -1,6 +1,6 @@
 {
   "name": "pino-logfmt",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Logfmt transport for pino",
   "main": "./src/transport.js",
   "bin": "./src/bin.js",
