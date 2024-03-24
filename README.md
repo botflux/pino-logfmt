@@ -146,3 +146,19 @@ node process-that-emits-logs.js | pino-logfmt
 ## Known issues
 
 - Stack traces (and others multi-line strings) are not escaped
+
+## Contributing
+
+To get started, you must clone the project and install dependencies.
+This project also include a `.devcontainer` configuration so everyone 
+can run the same environment.
+
+```shell
+git clone git@github.com:botflux/pino-logfmt.git
+npm ci
+```
+
+Code is linted in commit using `lint-staged`. The linter is `standard`.
+You can run the linter before commiting using `npm run lint`.
+
+The project is tested using `mocha` and `chai`. Run `npm run test` to run the tests.
