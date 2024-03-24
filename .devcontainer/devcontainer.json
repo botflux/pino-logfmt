@@ -1,3 +1,8 @@
+// See https://containers.dev/implementors/json_reference/ for configuration reference
 {
-  image: "node:18"
+	"name": "pino-logfmt",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+  "remoteUser": "node"
 }
