@@ -35,6 +35,7 @@
     "chai": "^4.4.1",
     "commit-and-tag-version": "^12.2.0",
     "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
     "mocha": "^10.3.0",
     "pino": "^8.19.0",
     "standard": "^17.1.0",
@@ -54,5 +55,9 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "lint-staged": {
+    "src/**/*.js": [ "standard --fix" ],
+    "tests/**/*.js": [ "standard --fix" ]
   }
 }
