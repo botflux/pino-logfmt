@@ -7,7 +7,8 @@
   "typings": "./typings/types.d.ts",
   "scripts": {
     "test": "TZ=Europe/Paris mocha \"tests/**/*.spec.js\"",
-    "version": "commit-and-tag-version"
+    "version": "commit-and-tag-version",
+    "lint": "standard --fix \"src/**/*.js\" \"tests/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "husky": "^8.0.3",
     "mocha": "^10.3.0",
     "pino": "^8.19.0",
+    "standard": "^17.1.0",
     "ts-node": "^10.9.2",
     "typescript": "5.3"
   },
