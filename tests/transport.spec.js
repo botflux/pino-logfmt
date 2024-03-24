@@ -1,8 +1,9 @@
-import logfmtTransport from "../src/transport.js"
-import {mkdir, readFile} from "node:fs/promises"
-import {randomUUID} from "node:crypto"
-import pino from "pino";
-import {expect} from "chai";
+import { describe, it, beforeEach } from 'mocha'
+import logfmtTransport from '../src/transport.js'
+import { mkdir, readFile } from 'node:fs/promises'
+import { randomUUID } from 'node:crypto'
+import pino from 'pino'
+import { expect } from 'chai'
 
 /**
  * @type {string}
@@ -32,16 +33,16 @@ it('should be able to output logfmt formatted logs', async function () {
 
   const logger = pino({
     timestamp: false,
-    base: {},
+    base: {}
   }, transport)
 
   // When
-  logger.info("foo")
+  logger.info('foo')
 
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 msg=foo",
-    ""
+    'level=30 msg=foo',
+    ''
   ])
 })
 
@@ -55,16 +56,16 @@ it('should be able to include the level label', async function () {
 
   const logger = pino({
     timestamp: false,
-    base: {},
+    base: {}
   }, transport)
 
   // When
-  logger.info("foo")
+  logger.info('foo')
 
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 msg=foo level_label=info",
-    ""
+    'level=30 msg=foo level_label=info',
+    ''
   ])
 })
 
@@ -72,21 +73,21 @@ it('should be able to include the timestamp', async function () {
   // Given
   const transport = await logfmtTransport({
     sync: true,
-    destination: logFile,
+    destination: logFile
   })
 
   const logger = pino({
     timestamp: () => ',"timestamp": 1709818522782',
-    base: {},
+    base: {}
   }, transport)
 
   // When
-  logger.info("foo")
+  logger.info('foo')
 
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 timestamp=1709818522782 msg=foo",
-    ""
+    'level=30 timestamp=1709818522782 msg=foo',
+    ''
   ])
 })
 
@@ -94,21 +95,21 @@ it('should be able to include metadata in the log line', async function () {
   // Given
   const transport = await logfmtTransport({
     sync: true,
-    destination: logFile,
+    destination: logFile
   })
 
   const logger = pino({
     timestamp: false,
-    base: {},
+    base: {}
   }, transport)
 
   // When
-  logger.info({ metadata: "bar" }, "foo")
+  logger.info({ metadata: 'bar' }, 'foo')
 
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 metadata=bar msg=foo",
-    ""
+    'level=30 metadata=bar msg=foo',
+    ''
   ])
 })
 
@@ -122,16 +123,16 @@ it('should be able to convert names from camel case to snake case', async functi
 
   const logger = pino({
     timestamp: false,
-    base: {},
+    base: {}
   }, transport)
 
   // When
-  logger.info({ myMetadata: "bar" }, "foo")
+  logger.info({ myMetadata: 'bar' }, 'foo')
 
   // Then
   expect(await loadLog(logFile)).to.deep.equal([
-    "level=30 msg=foo my_metadata=bar",
-    ""
+    'level=30 msg=foo my_metadata=bar',
+    ''
   ])
 })
 
@@ -146,16 +147,16 @@ describe('time format', function () {
 
     const logger = pino({
       timestamp: () => ',"time": 1709818522782',
-      base: {},
+      base: {}
     }, transport)
 
     // When
-    logger.info("foo")
+    logger.info('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=30 time=2024-03-07T14:35:22+0100 msg=foo",
-      ""
+      'level=30 time=2024-03-07T14:35:22+0100 msg=foo',
+      ''
     ])
   })
 
@@ -165,21 +166,21 @@ describe('time format', function () {
       sync: true,
       destination: logFile,
       formatTime: true,
-      timeKey: "timestamp"
+      timeKey: 'timestamp'
     })
 
     const logger = pino({
       timestamp: () => ',"timestamp": 1709818522782',
-      base: {},
+      base: {}
     }, transport)
 
     // When
-    logger.info("foo")
+    logger.info('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=30 timestamp=2024-03-07T14:35:22+0100 msg=foo",
-      ""
+      'level=30 timestamp=2024-03-07T14:35:22+0100 msg=foo',
+      ''
     ])
   })
 
@@ -189,22 +190,22 @@ describe('time format', function () {
       sync: true,
       destination: logFile,
       formatTime: true,
-      timeKey: "timestamp",
-      timeFormat: "dddd, mmmm dS, yyyy, h:MM:ss TT"
+      timeKey: 'timestamp',
+      timeFormat: 'dddd, mmmm dS, yyyy, h:MM:ss TT'
     })
 
     const logger = pino({
       timestamp: () => ',"timestamp": 1709818522782',
-      base: {},
+      base: {}
     }, transport)
 
     // When
-    logger.info("foo")
+    logger.info('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=30 timestamp=\"Thursday, March 7th, 2024, 2:35:22 PM\" msg=foo",
-      ""
+      'level=30 timestamp="Thursday, March 7th, 2024, 2:35:22 PM" msg=foo',
+      ''
     ])
   })
 })
@@ -216,21 +217,21 @@ describe('level labels', function () {
       sync: true,
       destination: logFile,
       includeLevelLabel: true,
-      levelLabelKey: "my_level_label"
+      levelLabelKey: 'my_level_label'
     })
 
     const logger = pino({
       timestamp: false,
-      base: {},
+      base: {}
     }, transport)
 
     // When
-    logger.info("foo")
+    logger.info('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=30 msg=foo my_level_label=info",
-      ""
+      'level=30 msg=foo my_level_label=info',
+      ''
     ])
   })
 
@@ -241,7 +242,7 @@ describe('level labels', function () {
       destination: logFile,
       includeLevelLabel: true,
       customLevels: {
-        55: "critic"
+        55: 'critic'
       }
     })
 
@@ -254,12 +255,12 @@ describe('level labels', function () {
     }, transport)
 
     // When
-    logger.critic("foo")
+    logger.critic('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=55 msg=foo level_label=critic",
-      ""
+      'level=55 msg=foo level_label=critic',
+      ''
     ])
   })
 
@@ -268,7 +269,7 @@ describe('level labels', function () {
     const transport = await logfmtTransport({
       sync: true,
       destination: logFile,
-      includeLevelLabel: true,
+      includeLevelLabel: true
     })
 
     const logger = pino({
@@ -280,16 +281,15 @@ describe('level labels', function () {
     }, transport)
 
     // When
-    logger.critic("foo")
+    logger.critic('foo')
 
     // Then
     expect(await loadLog(logFile)).to.deep.equal([
-      "level=55 msg=foo level_label=unknown",
-      ""
+      'level=55 msg=foo level_label=unknown',
+      ''
     ])
   })
 })
-
 
 /**
  * Read and parse the given log file.
@@ -298,6 +298,6 @@ describe('level labels', function () {
  * @returns {Promise<string[]>}
  */
 async function loadLog (file) {
-  const content = await readFile(file, "utf-8")
-  return content.split("\n")
+  const content = await readFile(file, 'utf-8')
+  return content.split('\n')
 }

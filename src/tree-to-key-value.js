@@ -1,4 +1,4 @@
-import {snakeCase} from "case-anything";
+import { snakeCase } from 'case-anything'
 
 /**
  * Flatten a tree into a key value dictionary.
@@ -9,7 +9,7 @@ import {snakeCase} from "case-anything";
  * @param {string[]} prefixes
  * @returns {Record<string, unknown>}
  */
-export function treeToKeyValue(source, separator = "_", convertNamesToSnakeCase = true, prefixes = []){
+export function treeToKeyValue (source, separator = '_', convertNamesToSnakeCase = true, prefixes = []) {
   /**
    * @type {Record<string, unknown>}
    */
@@ -20,7 +20,7 @@ export function treeToKeyValue(source, separator = "_", convertNamesToSnakeCase 
       ? snakeCase(key)
       : key
 
-    if (typeof source[key] === "object" && !Array.isArray(source[key])) {
+    if (typeof source[key] === 'object' && !Array.isArray(source[key])) {
       Object.assign(
         output,
         treeToKeyValue(

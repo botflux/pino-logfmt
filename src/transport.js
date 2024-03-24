@@ -1,23 +1,22 @@
-import SonicBoom from "sonic-boom";
-import { once } from "node:events"
-import build from "pino-abstract-transport";
-import logfmt from "logfmt"
-import { snakeCase } from "case-anything"
-import {treeToKeyValue} from "./tree-to-key-value.js";
-import format from "dateformat"
-import dateFormat from "dateformat";
+import SonicBoom from 'sonic-boom'
+import { once } from 'node:events'
+import build from 'pino-abstract-transport'
+import logfmt from 'logfmt'
+import { snakeCase } from 'case-anything'
+import { treeToKeyValue } from './tree-to-key-value.js'
+import dateFormat from 'dateformat'
 
 /**
  *
  * @type {Record<number, string>}
  */
 export const baseLevelToLabel = {
-  10: "trace",
-  20: "debug",
-  30: "info",
-  40: "warn",
-  50: "error",
-  60: "fatal",
+  10: 'trace',
+  20: 'debug',
+  30: 'info',
+  40: 'warn',
+  50: 'error',
+  60: 'fatal'
 }
 
 /**
@@ -25,31 +24,31 @@ export const baseLevelToLabel = {
  * @param {LogFmtTransportOptions} opts
  * @returns {Promise<Transform & build.OnUnknown>}
  */
-export default async function (opts  = {}) {
+export default async function (opts = {}) {
   const {
     includeLevelLabel,
-    levelLabelKey = "level_label",
+    levelLabelKey = 'level_label',
     formatTime,
-    timeKey = "time",
+    timeKey = 'time',
     convertToSnakeCase,
     flattenNestedObjects,
     flattenNestedSeparator,
-    customLevels =  baseLevelToLabel,
-    timeFormat = "isoDateTime"
+    customLevels = baseLevelToLabel,
+    timeFormat = 'isoDateTime'
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
   // It is the same of pino.destination().
   const destination = new SonicBoom({
     dest: opts.destination || 1,
-    sync: opts.sync ?? false,
+    sync: opts.sync ?? false
   })
   await once(destination, 'ready')
 
   return build(async function (source) {
     for await (let obj of source) {
       if (includeLevelLabel === true) {
-        obj[levelLabelKey] = customLevels[obj.level] ?? "unknown"
+        obj[levelLabelKey] = customLevels[obj.level] ?? 'unknown'
       }
 
       if (formatTime === true) {
@@ -80,7 +79,7 @@ export default async function (opts  = {}) {
       }
     }
   }, {
-    async close (err) {
+    async close () {
       destination.end()
       await once(destination, 'close')
     }
