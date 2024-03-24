@@ -3,3 +3,4 @@ node_modules
 .github
 var
 .idea
+.devcontainer
