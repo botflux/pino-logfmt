@@ -1,7 +1,7 @@
 FROM node:18
 
 # Install basic development tools
-RUN apt update && apt install -y less man-db sudo
+RUN apt update && apt install -y less man-db sudo vim
 
 # Ensure default `node` user has access to `sudo`
 ARG USERNAME=node
