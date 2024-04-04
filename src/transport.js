@@ -20,6 +20,22 @@ export const baseLevelToLabel = {
 }
 
 /**
+ * Escapes multi-line strings in an object, recursively and in place.
+ *
+ * @param {Record<unknown, unknown>} object
+ * @returns {Record<string, unknown>}
+ */
+function deeplyEscapeMultilineStringsInObject (obj) {
+  for (const field in obj) {
+    if (typeof obj[field] === 'string') {
+      obj[field] = obj[field].replace(/\n/g, '\\n')
+    } else if (typeof obj[field] === 'object') {
+      deeplyEscapeMultilineStringsInObject(obj[field])
+    }
+  }
+}
+
+/**
  *
  * @param {LogFmtTransportOptions} opts
  * @returns {Promise<Transform & build.OnUnknown>}
@@ -34,7 +50,8 @@ export default async function (opts = {}) {
     flattenNestedObjects,
     flattenNestedSeparator,
     customLevels = baseLevelToLabel,
-    timeFormat = 'isoDateTime'
+    timeFormat = 'isoDateTime',
+    escapeMultilineStrings
   } = opts
 
   // SonicBoom is necessary to avoid loops with the main thread.
@@ -66,6 +83,10 @@ export default async function (opts = {}) {
             delete obj[field]
           }
         }
+      }
+
+      if (escapeMultilineStrings === true) {
+        deeplyEscapeMultilineStringsInObject(obj)
       }
 
       if (flattenNestedObjects === true) {

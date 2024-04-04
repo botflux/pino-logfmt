@@ -98,6 +98,7 @@ logger.info("Hello world")
 | `convertToSnakeCase`     | `boolean`          | `false`         | Convert log field names to snake case.                                                                                                                        |
 | `flattenNestedObjects`   | `boolean`          | `false`         | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
 | `flattenNestedSeparator` | `string`           | `"_"`           | The character that is used to merge keys when `flattenNestedObjects` is enabled.                                                                              |
+| `escapeMultilineStrings` | `boolean`           | `false`           | Escape multi-line strings in the log output, including deeply nested values                                                                              |
 | `destination`            | `string \| number` | `1`             | The destination where the transport will write to. By default, it logs to stdout but you can also provide a file name.                                        |
 
 
@@ -124,6 +125,7 @@ Options:
   --flatten-separator <string>  the separator used when flattening nested metadata (default: ".")
   --custom-levels, -x <string>  the levels associated to their labels in the format "10:trace,20:debug" (default: "10:trace,20:debug,30:info,40:warn,50:error,60:fatal")
   --time-format <string>        the time format to use if time formatting is enabled (default: "isoDateTime")
+  --escape-multiline-strings    escape multi-line strings in the log output, including deeply nested values (default: false)
   -h, --help                    display help for command
 ```
 
@@ -141,12 +143,9 @@ node process-that-emits-logs.js | pino-logfmt
 | `--time-format`         | `string`  | `"isoDateTime"` | A time format compatible with `dateformat`' formats.                                                                                                          |
 | `--time-key`            | `string`  | `"time"`        | The name of the key that holds the log timestamp.                                                                                                             |
 | `--snake-case`          | `boolean` | `false`         | Convert log field names to snake case.                                                                                                                        |
+| `--escape-multiline-strings`          | `boolean` | `false`         | Escape multi-line strings in the log output, including deeply nested values                                               |
 | `--flatten-nested`      | `boolean` | `false`         | Flatten nested metadata (e.g. `{ error: { type: "Error", message: "Something went wrong" } }` becomes `error_type=Error error_message="Something went wrong"` |
 | `--flatten-separator`   | `string`  | `"_"`           | The character that is used to merge keys when `flattenNestedObjects` is enabled.                                                                              |
-
-## Known issues
-
-- Stack traces (and others multi-line strings) are not escaped
 
 ## Contributing
 

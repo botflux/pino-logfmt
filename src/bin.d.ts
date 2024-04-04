@@ -8,4 +8,5 @@ export type ProgramOptions = {
   flattenSeparator?: string
   customLevels?: string
   timeFormat?: string
+  escapeMultilineStrings?: boolean
 }
