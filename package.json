@@ -1,6 +1,6 @@
 {
   "name": "pino-logfmt",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Logfmt transport for pino",
   "main": "./src/transport.js",
   "bin": "./src/bin.js",
@@ -58,7 +58,11 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.js": [ "standard --fix" ],
-    "tests/**/*.js": [ "standard --fix" ]
+    "src/**/*.js": [
+      "standard --fix"
+    ],
+    "tests/**/*.js": [
+      "standard --fix"
+    ]
   }
 }

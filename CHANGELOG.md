@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.0.4](https://github.com/botflux/pino-logfmt/compare/v0.0.3...v0.0.4) (2024-04-07)
+
+
+### Features
+
+* introduce new `escapeMutlilineStrings` option ([18111c0](https://github.com/botflux/pino-logfmt/commit/18111c0607f2ca25be41d9040066c6b2415bcfa1))
+
 ## [0.0.3](https://github.com/botflux/pino-logfmt/compare/v0.0.2...v0.0.3) (2024-03-20)
 
 ## [0.0.2](https://github.com/botflux/pino-logfmt/compare/v0.0.1...v0.0.2) (2024-03-20)
