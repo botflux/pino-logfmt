@@ -46,6 +46,52 @@ it('should be able to output logfmt formatted logs', async function () {
   ])
 })
 
+it('doesn\'t automatically escape multi-line strings', async function () {
+  // Given
+  const transport = await logfmtTransport({
+    sync: true,
+    destination: logFile
+  })
+
+  const logger = pino({
+    timestamp: false,
+    base: {}
+  }, transport)
+
+  // When
+  logger.info('foo\nbar')
+
+  // Then
+  expect(await loadLog(logFile)).to.deep.equal([
+    'level=30 msg=foo',
+    'bar',
+    ''
+  ])
+})
+
+it('escapes multi-line strings when escapeMultilineStrings is Enabled', async function () {
+  // Given
+  const transport = await logfmtTransport({
+    sync: true,
+    destination: logFile,
+    escapeMultilineStrings: true
+  })
+
+  const logger = pino({
+    timestamp: false,
+    base: {}
+  }, transport)
+
+  // When
+  logger.info('foo\nbar')
+
+  // Then
+  expect(await loadLog(logFile)).to.deep.equal([
+    'level=30 msg="foo\\\\nbar"',
+    ''
+  ])
+})
+
 it('should be able to include the level label', async function () {
   // Given
   const transport = await logfmtTransport({

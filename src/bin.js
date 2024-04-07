@@ -24,6 +24,7 @@ function cli () {
     .option('--flatten-separator <string>', 'the separator used when flattening nested metadata', '.')
     .option('--custom-levels, -x <string>', 'the levels associated to their labels in the format "10:trace,20:debug"', serialize(baseLevelToLabel))
     .option('--time-format <string>', 'the time format to use if time formatting is enabled', 'isoDateTime')
+    .option('--escape-multiline-strings', 'escape multi-line strings in the log output, including deeply nested values', false)
     .action(action)
     .parseAsync(process.argv)
     .catch(console.error)
@@ -42,7 +43,8 @@ async function action (opts) {
     snakeCase: convertToSnakeCase,
     flattenNested: flattenNestedObjects,
     customLevels: serializedCustomLevels,
-    timeFormat
+    timeFormat,
+    escapeMultilineStrings
   } = opts
 
   const customLevels = serializedCustomLevels !== undefined
@@ -57,7 +59,8 @@ async function action (opts) {
     convertToSnakeCase,
     flattenNestedObjects,
     customLevels,
-    timeFormat
+    timeFormat,
+    escapeMultilineStrings
   })
 
   pump(process.stdin, transport)

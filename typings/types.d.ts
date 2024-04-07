@@ -86,6 +86,13 @@ export type LogFmtTransportOptions = {
   flattenNestedSeparator?: string
 
   /**
+   * Escape multi-line strings in the log output, including deeply nested values
+   *
+   * @default {false}
+   */
+  escapeMultilineStrings?: boolean
+
+  /**
    * Override the default level mapping.
    * Here is the default mapping:
    * ```
