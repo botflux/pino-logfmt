@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.0](https://github.com/botflux/pino-logfmt/compare/v0.0.4...v0.1.0) (2024-10-13)
+
+## CI
+
+* stop testing nodejs 21 to test nodejs 22
+
 ## [0.0.4](https://github.com/botflux/pino-logfmt/compare/v0.0.3...v0.0.4) (2024-04-07)
 
 
