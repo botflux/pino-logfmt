@@ -1,4 +1,4 @@
-import { describe, it, beforeEach } from 'mocha'
+import { describe, it, beforeEach, before } from 'mocha'
 import logfmtTransport from '../src/transport.js'
 import { mkdir, readFile } from 'node:fs/promises'
 import { randomUUID } from 'node:crypto'
@@ -22,6 +22,10 @@ beforeEach(async () => {
   })
 
   logFile = `${testLogDirectory}/log`
+})
+
+before(() => {
+  console.log(`Current Node.js version is ${process.version}`)
 })
 
 it('should be able to output logfmt formatted logs', async function () {
