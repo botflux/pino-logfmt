@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.1](https://github.com/botflux/pino-logfmt/compare/v0.0.4...v0.1.1) (2024-10-18)
+
+## Docs
+
+* update supported Node.js version list ([08e3a86](https://github.com/botflux/pino-logfmt/commit/08e3a86f8168dee995ee5877aebb2a27952aa8ca))
+
+## CI
+
+* test nodejs 23 ([570211b](570211b59a032a96344dddd42b3e0486dfcc46bf))
+
 ## [0.1.0](https://github.com/botflux/pino-logfmt/compare/v0.0.4...v0.1.0) (2024-10-13)
 
 ## CI
