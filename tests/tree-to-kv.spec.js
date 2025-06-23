@@ -1,5 +1,5 @@
-import { describe, it } from 'mocha'
-import { expect } from 'chai'
+import { describe, it } from 'node:test'
+import { strict as assert } from 'node:assert'
 import { treeToKeyValue } from '../src/tree-to-key-value.js'
 
 describe('treeToKeyValue', function () {
@@ -7,27 +7,27 @@ describe('treeToKeyValue', function () {
     // Given
     // When
     // Then
-    expect(treeToKeyValue({ foo: 'bar' })).to.deep.equal({ foo: 'bar' })
+    assert.deepEqual(treeToKeyValue({ foo: 'bar' }), { foo: 'bar' })
   })
 
   it('should be able to flatten nested objects', function () {
     // Given
     // When
     // Then
-    expect(treeToKeyValue({ foo: { bar: 'baz' } })).to.deep.equal({ foo_bar: 'baz' })
+    assert.deepEqual(treeToKeyValue({ foo: { bar: 'baz' } }), { foo_bar: 'baz' })
   })
 
   it('should be able to flatten deep nested objects', function () {
     // Given
     // When
     // Then
-    expect(treeToKeyValue({ foo: { bar: { baz: 'hello' } } })).to.deep.equal({ foo_bar_baz: 'hello' })
+    assert.deepEqual(treeToKeyValue({ foo: { bar: { baz: 'hello' } } }), { foo_bar_baz: 'hello' })
   })
 
   it('should be able to transform camel case names to snake case', function () {
     // Given
     // When
     // Then
-    expect(treeToKeyValue({ errorName: 'bar' })).to.deep.equal({ error_name: 'bar' })
+    assert.deepEqual(treeToKeyValue({ errorName: 'bar' }), { error_name: 'bar' })
   })
 })
