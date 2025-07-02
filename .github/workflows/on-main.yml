@@ -6,7 +6,6 @@ name: Build and test
 on:
   push:
     branches: [ "main" ]
-  pull_request:
 
 jobs:
   build:
@@ -27,3 +26,11 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
+    - name: Create Release Pull Request
+      uses: changesets/action@v1
+      with:
+        title: Prepare version update
+        commit: "[release] update version"
+        version: npm run v
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
