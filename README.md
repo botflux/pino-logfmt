@@ -1,6 +1,6 @@
 # pino-logfmt
 ![build and test](https://github.com/botflux/pino-logfmt/actions/workflows/node.js.yml/badge.svg)
-![tested Node.js versions](https://img.shields.io/badge/Tested_on_Node.js-14,16,18,20,22,23-green)
+![tested Node.js versions](https://img.shields.io/badge/Tested_on_Node.js-20,22,24-green)
 
 This package provides a transport that transforms standard pino logs to logfmt.
 

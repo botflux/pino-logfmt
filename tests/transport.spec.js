@@ -1,9 +1,9 @@
-import { describe, it, beforeEach, before } from 'mocha'
+import { describe, it, beforeEach, before } from 'node:test'
+import { strict as assert } from 'node:assert'
 import logfmtTransport from '../src/transport.js'
 import { mkdir, readFile } from 'node:fs/promises'
 import { randomUUID } from 'node:crypto'
 import pino from 'pino'
-import { expect } from 'chai'
 
 /**
  * @type {string}
@@ -44,7 +44,7 @@ it('should be able to output logfmt formatted logs', async function () {
   logger.info('foo')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 msg=foo',
     ''
   ])
@@ -66,7 +66,7 @@ it('doesn\'t automatically escape multi-line strings', async function () {
   logger.info('foo\nbar')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 msg=foo',
     'bar',
     ''
@@ -90,7 +90,7 @@ it('escapes multi-line strings when escapeMultilineStrings is Enabled', async fu
   logger.info('foo\nbar')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 msg="foo\\\\nbar"',
     ''
   ])
@@ -113,7 +113,7 @@ it('should be able to include the level label', async function () {
   logger.info('foo')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 msg=foo level_label=info',
     ''
   ])
@@ -135,7 +135,7 @@ it('should be able to include the timestamp', async function () {
   logger.info('foo')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 timestamp=1709818522782 msg=foo',
     ''
   ])
@@ -157,7 +157,7 @@ it('should be able to include metadata in the log line', async function () {
   logger.info({ metadata: 'bar' }, 'foo')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 metadata=bar msg=foo',
     ''
   ])
@@ -180,7 +180,7 @@ it('should be able to convert names from camel case to snake case', async functi
   logger.info({ myMetadata: 'bar' }, 'foo')
 
   // Then
-  expect(await loadLog(logFile)).to.deep.equal([
+  assert.deepEqual(await loadLog(logFile), [
     'level=30 msg=foo my_metadata=bar',
     ''
   ])
@@ -204,7 +204,7 @@ describe('time format', function () {
     logger.info('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=30 time=2024-03-07T14:35:22+0100 msg=foo',
       ''
     ])
@@ -228,7 +228,7 @@ describe('time format', function () {
     logger.info('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=30 timestamp=2024-03-07T14:35:22+0100 msg=foo',
       ''
     ])
@@ -253,7 +253,7 @@ describe('time format', function () {
     logger.info('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=30 timestamp="Thursday, March 7th, 2024, 2:35:22 PM" msg=foo',
       ''
     ])
@@ -279,7 +279,7 @@ describe('level labels', function () {
     logger.info('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=30 msg=foo my_level_label=info',
       ''
     ])
@@ -308,7 +308,7 @@ describe('level labels', function () {
     logger.critic('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=55 msg=foo level_label=critic',
       ''
     ])
@@ -334,7 +334,7 @@ describe('level labels', function () {
     logger.critic('foo')
 
     // Then
-    expect(await loadLog(logFile)).to.deep.equal([
+    assert.deepEqual(await loadLog(logFile), [
       'level=55 msg=foo level_label=unknown',
       ''
     ])
