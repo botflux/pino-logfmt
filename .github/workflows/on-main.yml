@@ -27,6 +27,7 @@ jobs:
     - run: npm ci
     - run: npm test
     - name: Create Release Pull Request
+      if: ${{ matrix.node-version == '22' }}
       uses: changesets/action@v1
       with:
         title: Prepare version update
