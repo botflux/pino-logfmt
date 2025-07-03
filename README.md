@@ -1,6 +1,7 @@
 # pino-logfmt
-![build and test](https://github.com/botflux/pino-logfmt/actions/workflows/node.js.yml/badge.svg)
+![build and test](https://github.com/botflux/pino-logfmt/actions/workflows/on-main.yml/badge.svg)
 ![tested Node.js versions](https://img.shields.io/badge/Tested_on_Node.js-20,22,24-green)
+![size](https://badgen.net/bundlephobia/min/pino-logfmt)
 
 This package provides a transport that transforms standard pino logs to logfmt.
 
@@ -161,4 +162,15 @@ npm ci
 Code is linted in commit using `lint-staged`. The linter is `standard`.
 You can run the linter before commiting using `npm run lint`.
 
-The project is tested using `mocha` and `chai`. Run `npm run test` to run the tests.
+The project is tested using `node:test`. Run `npm run test` to run the tests.
+
+## Migrating from v0 to v1
+
+No API changed from v0 to v1, only support for Node.js 14, 16 and 18 was dropped.
+
+Node.js 14 and 16 were dropped because the package now uses `node:util`'s `parseArgs`
+function instead of `commander` (thus reducing the package's size).
+
+On the other hand, Node.js 18 was dropped because it reached its end of life.
+This means that the project can still work under this major, but there is no automated
+test ensuring it fully works.
