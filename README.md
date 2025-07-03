@@ -151,12 +151,12 @@ node process-that-emits-logs.js | pino-logfmt
 ## Contributing
 
 To get started, you must clone the project and install dependencies.
-This project also include a `.devcontainer` configuration so everyone 
-can run the same environment.
+Then, you can use `devbox` to start the default environment.
 
 ```shell
 git clone git@github.com:botflux/pino-logfmt.git
 npm ci
+devbox shell
 ```
 
 Code is linted in commit using `lint-staged`. The linter is `standard`.
