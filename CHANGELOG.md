@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Patch Changes
+
+- d5e13fd: Add v0 to v1 explainer in the readme
+
 ## 1.0.0
 
 ### Major Changes
