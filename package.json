@@ -8,7 +8,6 @@
   "scripts": {
     "test": "TZ=Europe/Paris node --test tests/*.spec.js",
     "lint": "standard --fix \"src/**/*.js\" \"tests/**/*.js\"",
-    "prepare": "husky install",
     "v": "npx @changesets/cli version && npx --no-install synclockver"
   },
   "repository": {
@@ -45,11 +44,6 @@
     "pino-abstract-transport": "^2.0.0",
     "pump": "^3.0.0",
     "sonic-boom": "^3.8.0"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "lint-staged": {
     "src/**/*.js": [
