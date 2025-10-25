@@ -5,5 +5,9 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "20"
     }
-  }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,readonly",
+    "source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind"
+  ]
 }
