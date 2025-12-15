@@ -32,7 +32,7 @@
     "husky": "8.0.3",
     "lint-staged": "15.5.2",
     "pino": "10.1.0",
-    "standard": "17.1.0",
+    "standard": "17.1.2",
     "synclockver": "1.0.3",
     "ts-node": "10.9.2",
     "typescript": "5.3"
