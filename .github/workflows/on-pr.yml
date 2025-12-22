@@ -6,6 +6,8 @@ name: Build and test
 on:
   pull_request:
 
+permissions: read-all
+
 jobs:
   build:
 

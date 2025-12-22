@@ -3,12 +3,14 @@ name: Publish
 
 on: workflow_dispatch
 
+permissions: read-all
+
 jobs:
   release:
     runs-on: ubuntu-latest
 
     permissions:
-      # contents: read
+      contents: read
       id-token: write
 
     steps:
