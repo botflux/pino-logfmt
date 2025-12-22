@@ -39,5 +39,7 @@ jobs:
         title: Prepare version update
         commit: "[release] update version"
         version: npm run v
+        publish: npm publish
+        createGithubReleases: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
