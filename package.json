@@ -35,7 +35,7 @@
     "standard": "17.1.2",
     "synclockver": "1.0.3",
     "ts-node": "10.9.2",
-    "typescript": "5.3"
+    "typescript": "5.9"
   },
   "dependencies": {
     "case-anything": "2.1.13",
