@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
+      contents: write
       id-token: write
 
     steps:
@@ -24,15 +24,14 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Configure Git user
-        run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
+      - name: Install dependencies
+        run: npm ci
 
-      - run: echo "\n//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n" >> .npmrc
+      - name: Publish to npm
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba
+        with:
+          publish: npm publish
+          createGithubReleases: true
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
