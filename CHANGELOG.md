@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- cae5c9d: save exact dependencies to make the package more secure
+
 ## 1.0.1
 
 ### Patch Changes

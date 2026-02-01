@@ -32,8 +32,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm test
-    
-
     - name: Configure Git user
       if: ${{ matrix.node-version == '22' }}
       run: |
