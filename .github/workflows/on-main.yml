@@ -37,6 +37,7 @@ jobs:
       run: |
         git config --global user.name 'GitHub Actions Bot'
         git config --global user.email 'actions@github.com'
+
     - name: Create Release Pull Request
       if: ${{ matrix.node-version == '22' }}
       uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba
@@ -46,6 +47,5 @@ jobs:
         version: npm run v
         publish: npm publish
         createGithubReleases: true
-        commitMode: github-api
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
