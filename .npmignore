@@ -4,3 +4,8 @@ node_modules
 var
 .idea
 .devcontainer
+.envrc
+.changesets
+AGENTS.md
+devbox.json
+devbox.lock
