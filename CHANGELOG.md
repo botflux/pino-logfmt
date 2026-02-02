@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Patch Changes
+
+- 42a66f1: Pin dependencies to exact version
+
 ## 1.1.0
 
 ### Minor Changes
