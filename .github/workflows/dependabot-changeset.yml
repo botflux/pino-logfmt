@@ -1,0 +1,47 @@
+name: Dependabot Changeset
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  changeset:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Create changeset
+        run: |
+          cat > ".changeset/dependabot-${{ github.event.pull_request.number }}.md" << 'EOF'
+          ---
+          "pino-logfmt": patch
+          ---
+
+          ${{ github.event.pull_request.title }}
+          EOF
+
+      - name: Commit changeset
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .changeset/
+          git diff --staged --quiet || git commit -m "Add changeset for dependabot PR"
+          git push

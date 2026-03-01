@@ -1,36 +1,47 @@
-# .github/workflows/release.yml
 name: Publish
 
-on: workflow_dispatch
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
-  release:
+  publish:
     runs-on: ubuntu-latest
-
     permissions:
-      contents: read
+      contents: write
       id-token: write
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Configure Git user
+      - run: npm ci
+
+      - name: Publish to npm with provenance
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Extract release notes from CHANGELOG
+        if: startsWith(github.ref, 'refs/tags/')
+        id: changelog
         run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
+          VERSION=${GITHUB_REF_NAME#v}
+          awk -v ver="$VERSION" '
+            /^## / { if (found) exit; if ($2 == ver) found=1; next }
+            found { print }
+          ' CHANGELOG.md > release_notes.md
 
-      - run: echo "\n//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}\n" >> .npmrc
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
+        with:
+          body_path: release_notes.md
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,49 +1,45 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: On main
 
 on:
   push:
-    branches: [ "main" ]
-
-permissions: read-all
+    branches: ["main"]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-      pull-requests: write
-
     strategy:
       matrix:
         node-version: [20, 22, 24]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm test
-    - name: Configure Git user
-      if: ${{ matrix.node-version == '22' }}
-      run: |
-        git config --global user.name 'GitHub Actions Bot'
-        git config --global user.email 'actions@github.com'
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm test
 
-    - name: Create Release Pull Request
-      if: ${{ matrix.node-version == '22' }}
-      uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba
-      with:
-        title: Prepare version update
-        commit: "[release] update version"
-        version: npm run v
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Use Node.js 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22
+          cache: 'npm'
+      - run: npm ci
+      - name: Create Release Pull Request or Tag
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf
+        with:
+          title: "chore: release"
+          commit: "chore: release"
+          version: npm run v
+          publish: npx changeset tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
