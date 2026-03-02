@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3
+
+### Patch Changes
+
+- 4cfa481: build(deps): bump pump from 3.0.3 to 3.0.4
+
 ## 1.1.2
 
 ### Patch Changes
