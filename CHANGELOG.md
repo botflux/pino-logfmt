@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.4
+
+### Patch Changes
+
+- 3756c00: build(deps-dev): bump @changesets/cli from 2.29.8 to 2.30.0
+- d03c8e7: build(deps-dev): bump lint-staged from 16.3.1 to 16.3.2
+
 ## 1.1.3
 
 ### Patch Changes
