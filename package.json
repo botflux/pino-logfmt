@@ -43,7 +43,7 @@
     "logfmt": "1.4.0",
     "pino-abstract-transport": "3.0.0",
     "pump": "3.0.4",
-    "sonic-boom": "4.2.1"
+    "sonic-boom": "5.0.0"
   },
   "lint-staged": {
     "src/**/*.js": [
