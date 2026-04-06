@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.4
+
+### Patch Changes
+
+- 3756c00: build(deps-dev): bump @changesets/cli from 2.29.8 to 2.30.0
+- d03c8e7: build(deps-dev): bump lint-staged from 16.3.1 to 16.3.2
+- 0c0c291: build(deps-dev): bump lint-staged from 16.3.2 to 16.4.0
+- 00b5b1a: build(deps-dev): bump flatted from 3.3.3 to 3.4.2
+- 2dfb31a: build(deps-dev): bump typescript from 5.9.3 to 6.0.2
+- 7c6d12d: build(deps): bump picomatch from 2.3.1 to 2.3.2
+- 291d2c6: build(deps): bump sonic-boom from 4.2.1 to 5.0.0
+
 ## 1.1.3
 
 ### Patch Changes
