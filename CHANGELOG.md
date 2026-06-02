@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.5
+
+### Patch Changes
+
+- 0e4c791: build(deps-dev): bump typescript from 6.0.2 to 6.0.3
+- 56b3a2b: build(deps-dev): bump @changesets/cli from 2.30.0 to 2.31.0
+- 77f3ebd: build(deps-dev): bump lint-staged from 16.4.0 to 17.0.4
+- c3da8ea: build(deps-dev): bump lint-staged from 17.0.4 to 17.0.5
+- 75b794c: build(deps-dev): bump lint-staged from 17.0.5 to 17.0.7
+
 ## 1.1.4
 
 ### Patch Changes
