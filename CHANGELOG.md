@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.6
+
+### Patch Changes
+
+- f12a205: build(deps-dev): bump brace-expansion from 1.1.12 to 1.1.18
+- 2cb1dba: build(deps-dev): bump lint-staged from 17.2.0 to 17.3.0
+
 ## 1.1.5
 
 ### Patch Changes
