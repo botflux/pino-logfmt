@@ -1,0 +1,5 @@
+---
+"pino-logfmt": patch
+---
+
+build(deps-dev): bump js-yaml from 4.3.1 to 4.3.2
