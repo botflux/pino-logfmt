@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.6
+
+### Patch Changes
+
+- f12a205: build(deps-dev): bump brace-expansion from 1.1.12 to 1.1.18
+- 2cb1dba: build(deps-dev): bump lint-staged from 17.2.0 to 17.3.0
+- 210161d: build(deps-dev): bump @changesets/cli from 3.0.0 to 3.0.1
+- ef5ab3b: build(deps-dev): bump lint-staged from 17.3.0 to 17.4.1
+- c3677a6: build(deps): bump sonic-boom from 5.0.0 to 5.0.1
+- e9301d3: build(deps-dev): bump js-yaml from 4.3.1 to 4.3.2
+
 ## 1.1.5
 
 ### Patch Changes
