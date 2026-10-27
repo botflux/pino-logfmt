@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.7
+
+### Patch Changes
+
+- 2892265: build(deps): bump sonic-boom from 5.0.1 to 5.0.2
+- 80428b9: build(deps-dev): bump pino from 10.3.1 to 10.4.0
+- a9e13d2: build(deps): bump dateformat from 5.0.3 to 5.0.4
+- e8b2137: build(deps-dev): bump launch-editor from 2.14.1 to 2.14.2
+
 ## 1.1.6
 
 ### Patch Changes
