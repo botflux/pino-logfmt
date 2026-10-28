@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.0
+
+### Minor Changes
+
+- a6e7f95: Remove the `pump` dependency in favor of `stream.pipeline`, and use `import.meta.dirname` to locate `package.json` in the CLI.
+
 ## 2.0.0
 
 ### Major Changes
