@@ -163,6 +163,11 @@ You can run the linter before commiting using `npm run lint`.
 
 The project is tested using `node:test`. Run `npm run test` to run the tests.
 
+## Migrating from v1 to v2
+
+Nothing to do, no API changed from v1 to v2. Support for Node.js 20 was dropped and
+Node.js 26 is now supported. The tested versions are Node.js 22, 24 and 26.
+
 ## Migrating from v0 to v1
 
 No API changed from v0 to v1, only support for Node.js 14, 16 and 18 was dropped.
