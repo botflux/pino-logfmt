@@ -2,6 +2,7 @@ import { describe, it, beforeEach, before } from 'node:test'
 import { strict as assert } from 'node:assert'
 import logfmtTransport from '../src/transport.js'
 import { mkdir, readFile } from 'node:fs/promises'
+import { once } from 'node:events'
 import { randomUUID } from 'node:crypto'
 import pino from 'pino'
 
@@ -42,6 +43,7 @@ it('should be able to output logfmt formatted logs', async function () {
 
   // When
   logger.info('foo')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -64,6 +66,7 @@ it('doesn\'t automatically escape multi-line strings', async function () {
 
   // When
   logger.info('foo\nbar')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -88,6 +91,7 @@ it('escapes multi-line strings when escapeMultilineStrings is Enabled', async fu
 
   // When
   logger.info('foo\nbar')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -111,6 +115,7 @@ it('should be able to include the level label', async function () {
 
   // When
   logger.info('foo')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -133,6 +138,7 @@ it('should be able to include the timestamp', async function () {
 
   // When
   logger.info('foo')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -155,6 +161,7 @@ it('should be able to include metadata in the log line', async function () {
 
   // When
   logger.info({ metadata: 'bar' }, 'foo')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -178,6 +185,7 @@ it('should be able to convert names from camel case to snake case', async functi
 
   // When
   logger.info({ myMetadata: 'bar' }, 'foo')
+  await closeTransport(transport)
 
   // Then
   assert.deepEqual(await loadLog(logFile), [
@@ -202,6 +210,7 @@ describe('time format', function () {
 
     // When
     logger.info('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -226,6 +235,7 @@ describe('time format', function () {
 
     // When
     logger.info('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -251,6 +261,7 @@ describe('time format', function () {
 
     // When
     logger.info('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -277,6 +288,7 @@ describe('level labels', function () {
 
     // When
     logger.info('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -306,6 +318,7 @@ describe('level labels', function () {
 
     // When
     logger.critic('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -332,6 +345,7 @@ describe('level labels', function () {
 
     // When
     logger.critic('foo')
+    await closeTransport(transport)
 
     // Then
     assert.deepEqual(await loadLog(logFile), [
@@ -350,4 +364,15 @@ describe('level labels', function () {
 async function loadLog (file) {
   const content = await readFile(file, 'utf-8')
   return content.split('\n')
+}
+
+/**
+ * End the transport and wait until everything is flushed to the destination.
+ *
+ * @param {import('node:stream').Transform} transport
+ * @returns {Promise<void>}
+ */
+async function closeTransport (transport) {
+  transport.end()
+  await once(transport, 'close')
 }

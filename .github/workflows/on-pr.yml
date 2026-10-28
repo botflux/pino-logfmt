@@ -3,12 +3,16 @@ name: Build and test
 on:
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        node-version: [20, 22, 24]
+        node-version: [22, 24, 26]
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Use Node.js ${{ matrix.node-version }}
@@ -18,3 +22,11 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
+
+  gate:
+    if: always()
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if a required job did not succeed
+        run: test "${{ needs.test.result }}" = "success"
