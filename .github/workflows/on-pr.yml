@@ -18,3 +18,11 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm test
+
+  gate:
+    if: always()
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if a required job did not succeed
+        run: test "${{ needs.test.result }}" = "success"
