@@ -1,16 +1,15 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util'
 import createTransport, { baseLevelToLabel } from './transport.js'
-import pump from 'pump'
+import { pipeline } from 'node:stream'
 import { serialize, parse } from './levels.js'
 import { readFileSync } from 'fs'
 import { join } from 'path'
-import * as url from 'url'
 
 cli()
 
 function cli () {
-  const { version, description } = JSON.parse(readFileSync(join(url.fileURLToPath(new URL('.', import.meta.url)), '..', 'package.json'), 'utf8'))
+  const { version, description } = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8'))
 
   try {
     const { values } = parseArgs({
@@ -153,5 +152,10 @@ async function action (opts) {
     escapeMultilineStrings
   })
 
-  pump(process.stdin, transport)
+  pipeline(process.stdin, transport, (err) => {
+    if (err) {
+      console.error(err)
+      process.exitCode = 1
+    }
+  })
 }
