@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.1
+
+### Patch Changes
+
+- f69d309: build(deps): bump dateformat from 5.0.4 to 5.0.5
+
 ## 2.1.0
 
 ### Minor Changes
