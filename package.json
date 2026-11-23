@@ -29,7 +29,7 @@
     "@changesets/cli": "3.0.3",
     "@types/logfmt": "1.2.6",
     "husky": "9.1.7",
-    "lint-staged": "17.6.0",
+    "lint-staged": "17.6.1",
     "pino": "10.4.0",
     "standard": "17.1.2",
     "synclockver": "1.0.3",
